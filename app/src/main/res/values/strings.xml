@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FP Phone</string>
+    <string name="incoming_call">Incoming Call</string>
 </resources>

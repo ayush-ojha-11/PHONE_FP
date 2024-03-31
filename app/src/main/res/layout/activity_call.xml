@@ -11,7 +11,7 @@
 
 
     <RelativeLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/inProgressRL"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -19,6 +19,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="250dp"
+            android:src="@mipmap/ic_launcher"
             android:scaleType="centerCrop"
             android:id="@+id/caller_iv" />
 
@@ -26,10 +27,10 @@
             android:id="@+id/caller_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:textSize="24sp"
+            android:layout_margin="15dp"
+            android:textSize="32sp"
             android:textColor="@color/white"
-            android:fontFamily="@font/poppins_bold"
+            android:fontFamily="@font/cc"
             android:text="Ayush Ojha"
             android:layout_below="@id/caller_iv"/>
 
@@ -39,8 +40,7 @@
             android:layout_height="wrap_content"
             android:text="00:00"
             android:textColor="#4CAF50"
-            android:fontFamily="@font/poppins_light"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="15dp"
             android:layout_below="@id/caller_name_tv"
             android:textSize="18sp"/>
 
@@ -53,33 +53,32 @@
             android:layout_below="@id/caller_iv"
             android:textColor="@color/white"
             android:text="Connecting..."
-            android:fontFamily="@font/poppins_regular"
             android:textSize="18sp"
-            android:layout_margin="10dp"/>
+            android:layout_margin="15dp"/>
 
 
         <EditText
             android:layout_below="@id/call_time_tv"
             android:id="@+id/note_editText"
             android:layout_width="match_parent"
+            android:lines="2"
+            android:textColor="@color/white"
             android:layout_height="wrap_content"
-            android:layout_above="@id/linear_layout_1"
-            android:textColorHint="#B2FFFFFF"
+            android:textColorHint="@color/light_grey"
             android:layout_margin="10dp"
             android:gravity="top"
-            android:fontFamily="@font/poppins_medium"
-            android:hint="Anything to note..." />
+            android:hint="TO NOTE" />
 
         <LinearLayout
             android:id="@+id/linear_layout_1"
             android:background="@drawable/round_button"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginTop="20dp"
             android:layout_above="@id/linear_layout_2"
-            android:layout_marginTop="16dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -87,37 +86,34 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/keypad_btn"
                 style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginEnd="8dp"
                 android:drawableTop="@drawable/ic_dialpad"
                 android:text="KeyPad"
-                android:fontFamily="@font/poppins_light"
                 android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/hold_btn"
                 style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginEnd="8dp"
-                android:fontFamily="@font/poppins_light"
                 android:drawableTop="@drawable/ic_hold"
                 android:text="Hold"
                 android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/add_call_btn"
                 style="@style/Widget.Material3.Button.TextButton"
-                android:fontFamily="@font/poppins_light"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:drawableTop="@drawable/ic_call_add"
                 android:text="Add"
                 android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -125,46 +121,43 @@
             android:id="@+id/linear_layout_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="16dp"
             android:gravity="center"
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/speaker_btn"
                 style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginEnd="8dp"
                 android:drawableTop="@drawable/ic_speaker"
-                android:fontFamily="@font/poppins_light"
                 android:text="Speaker"
                 android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
-            <com.google.android.material.button.MaterialButton
+            <ImageButton
                 android:id="@+id/end_call_btn"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/round_fab"
                 android:layout_marginEnd="8dp"
-                android:backgroundTint="@color/white"
-                android:drawableTop="@drawable/ic_end_call"
-                android:fontFamily="@font/poppins_regular"
+                android:backgroundTint="@color/red"
+                android:src="@drawable/ic_end_call"
+                app:tint="@color/white"
                 android:text="End Call"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textColor="@color/black" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/mute_btn"
                 style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:drawableTop="@drawable/ic_mute"
                 android:text="Mute"
                 android:textColor="@color/white"
-                android:fontFamily="@font/poppins_light"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -173,90 +166,112 @@
 
     <RelativeLayout
         android:id="@+id/incoming_call_RL"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:scaleType="centerCrop"
-            android:id="@+id/incomingCallerPhoto_iv"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/incomingCallerName_tv"
-            android:textColor="@color/white"
-            android:layout_below="@id/incomingCallerPhoto_iv"
-            android:text="Ayush Ojha"
-            android:fontFamily="@font/poppins_medium"
-            android:textSize="24sp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"/>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/incomingCallerNumber_tv"
-            android:layout_below="@id/incomingCallerName_tv"
-            android:text="9569489341"
-            android:layout_margin="2dp"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/poppins_light"
-            android:layout_centerHorizontal="true"/>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ringingStatus_tv"
-            android:layout_margin="5dp"
-            android:text="Ringing..."
-            android:textColor="@color/green"
-            android:layout_below="@id/incomingCallerNumber_tv"
-            android:fontFamily="@font/poppins_light"
-            android:layout_centerHorizontal="true"/>
-
-
-
         <RelativeLayout
-            android:layout_marginBottom="25dp"
-            android:padding="50dp"
-            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/image_view_bkg"
+            android:id="@+id/gradient_RL">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/rejectIncomingCall_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_end_call"
-                android:layout_alignParentStart="true"
-                app:tint="@android:color/white"
-                android:contentDescription="Reject Call"
-                android:backgroundTint="@color/red"
-                android:layout_marginStart="20dp"
-                tools:ignore="HardcodedText" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/acceptIncomingCall_btn"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:layout_margin="18dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:id="@+id/incomingCallerPhoto_iv"
+                android:contentDescription="Caller_Image" />
+
+
+            <LinearLayout
+                android:layout_above="@id/button_RL"
+                android:layout_marginBottom="15dp"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_call"
-                app:tint="@android:color/white"
-                android:contentDescription="Accept Call"
-                android:layout_alignParentEnd="true"
-                android:backgroundTint="@color/green"
-                android:layout_marginEnd="20dp"
-                tools:ignore="HardcodedText" />
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/incomingCallerName_tv"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/cc"
+                    android:text="Ayush Ojha"
+                    android:textSize="36sp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/incomingCallerNumber_tv"
+                    android:layout_below="@id/incomingCallerName_tv"
+                    android:text="9569489341"
+                    android:layout_margin="2dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:layout_centerHorizontal="true"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ringingStatus_tv"
+                    android:layout_margin="5dp"
+                    android:text="Ringing..."
+                    android:textColor="@color/green"
+                    android:layout_below="@id/incomingCallerNumber_tv"
+                    android:layout_centerHorizontal="true"/>
+
+            </LinearLayout>
+
+
+
+            <RelativeLayout
+                android:id="@+id/button_RL"
+                android:layout_marginBottom="25dp"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/rejectIncomingCall_btn"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:background="@drawable/round_fab"
+                    android:src="@drawable/ic_end_call"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="40dp"
+                    android:backgroundTint="@color/white"
+                    android:text="Reject"
+                    android:contentDescription="Reject Call"
+                    tools:ignore="HardcodedText"
+                    app:tint="@color/red" />
+
+                <ImageButton
+                    android:id="@+id/acceptIncomingCall_btn"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:src="@drawable/ic_call"
+                    android:contentDescription="Accept Call"
+                    android:layout_alignParentEnd="true"
+                    android:backgroundTint="@color/white"
+                    android:background="@drawable/round_fab"
+                    android:layout_marginEnd="40dp"
+                    app:tint="@color/green"
+                    tools:ignore="HardcodedText" />
+            </RelativeLayout>
+
         </RelativeLayout>
-
-
-
 
     </RelativeLayout>
 

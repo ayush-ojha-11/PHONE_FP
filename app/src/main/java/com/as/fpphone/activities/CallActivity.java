@@ -5,13 +5,19 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.telecom.Call;
+import android.telecom.InCallService;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -26,9 +32,11 @@ import androidx.core.view.WindowInsetsCompat;
 import com.as.fpphone.R;
 import com.as.fpphone.helpers.CallListHelper;
 import com.as.fpphone.helpers.CallManager;
+import com.as.fpphone.helpers.ContactHelper;
+import com.as.fpphone.helpers.RingtoneHelper;
+import com.as.fpphone.services.CallService;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class CallActivity extends AppCompatActivity {
 
@@ -37,7 +45,7 @@ public class CallActivity extends AppCompatActivity {
 
     ImageView callerImage;
 
-  TextView callerNameTV, callDurationTV, callStatusTV;
+    TextView callerNameTV, callDurationTV, callStatusTV;
 
     Button btn0,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btnHash,btnStar;
     BottomSheetDialog keypadDialog;
@@ -47,11 +55,13 @@ public class CallActivity extends AppCompatActivity {
 
     EditText noteET;
 
-    FloatingActionButton rejectIncomingCallBtn, acceptIncomingCallBtn;
+    ImageButton rejectIncomingCallBtn, acceptIncomingCallBtn, endCallBtn;
 
     RelativeLayout inProgressCallRLView, incomingRLView;
 
-    MaterialButton keypadBtn, holdBtn, addCallBtn, speakerBtn, endCallBtn, muteBtn;
+    MaterialButton keypadBtn, holdBtn, addCallBtn, speakerBtn,muteBtn;
+    public static boolean isMuted, isSpeakerOn, isCallOnHold;
+    public  static String muteBtnName = "Mute", speakerBtnName = "Speaker On";
 
     public static String PHONE_NUMBER, CALLER_NAME;
 
@@ -62,6 +72,9 @@ public class CallActivity extends AppCompatActivity {
     public CallActivity() {
 
     }
+
+
+    RingtoneHelper ringtoneHelper = new RingtoneHelper();
 
 
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
@@ -82,32 +95,46 @@ public class CallActivity extends AppCompatActivity {
         BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+
                 String action = intent.getAction();
 
-                if(action.equals("call_ended")){
-                    finishAndRemoveTask();
-                }
-                else if (action.equals("call_answered")) {
-                    inProgressCallRLView.setVisibility(View.VISIBLE);
-                    incomingRLView.setVisibility(View.GONE);
+                assert action != null;
+                switch (action) {
+                    case "call_ended":
+                        finishAndRemoveTask();
+                        break;
+                    case "call_answered":
+                        //Stop ringtone and vibration when call answered
+                        RingtoneHelper.stopRinging();
+                        RingtoneHelper.stopVibration();
+                        inProgressCallRLView.setVisibility(View.VISIBLE);
+                        incomingRLView.setVisibility(View.GONE);
 
-                    if (CallListHelper.callList.get(CallManager.NUMBER_OF_CALLS -1).getDetails().hasProperty(Call.Details.PROPERTY_CONFERENCE)){
-                        PHONE_NUMBER = "Conference";
-                        CALLER_NAME = "Conference";
-                    }
-                    else{
-                        PHONE_NUMBER = CallListHelper.callList.get(CallManager.NUMBER_OF_CALLS -1).getDetails().getHandle().getSchemeSpecificPart();
-                        CALLER_NAME = "HEY";
-                    }
+                        if (CallListHelper.callList.get(CallManager.NUMBER_OF_CALLS - 1).getDetails().hasProperty(Call.Details.PROPERTY_CONFERENCE)) {
+                            PHONE_NUMBER = "Conference";
+                            CALLER_NAME = "Conference";
+                        }
+                        else {
+                            PHONE_NUMBER = CallListHelper.callList.get(CallManager.NUMBER_OF_CALLS - 1).getDetails().getHandle().getSchemeSpecificPart();
+                            CALLER_NAME = ContactHelper.getContactName(PHONE_NUMBER,CallActivity.this);
+                        }
+                        callerNameTV.setText(CALLER_NAME);
+                        callStatusTV.setText("Connected");
+                        callStatusTV.setTextColor(Color.GREEN);
+                        break;
 
-                    callerNameTV.setText(PHONE_NUMBER);
+                    case "call_disconnecting":
+                        ringingStatusTV.setText("Rejected");
+                        ringingStatusTV.setTextColor(getColor(R.color.red));
+                        break;
                 }
             }
         };
 
-        IntentFilter intentFilter =new IntentFilter();
+        IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("call_ended");
         intentFilter.addAction("call_answered");
+        intentFilter.addAction("call_disconnecting");
         registerReceiver(broadcastReceiver,intentFilter,RECEIVER_EXPORTED);
 
         rejectIncomingCallBtn.setOnClickListener(v -> {
@@ -123,99 +150,25 @@ public class CallActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         int callState = CallManager.FP_CALL_STATE;
 
-        if(callState == Call.STATE_CONNECTING || callState==Call.STATE_DIALING){
-
-        }
-        else if(callState == Call.STATE_ACTIVE || callState == Call.STATE_HOLDING){
+        if(callState == Call.STATE_ACTIVE || callState == Call.STATE_HOLDING){
             Intent broadcastIntent = new Intent("call_answered");
             sendBroadcast(broadcastIntent);
         }
         else if (callState == Call.STATE_RINGING) {
+
+            PHONE_NUMBER = CallListHelper.callList.get(CallManager.NUMBER_OF_CALLS - 1).getDetails().getHandle().getSchemeSpecificPart();
+            CALLER_NAME = ContactHelper.getContactName(PHONE_NUMBER,this);
+
             inProgressCallRLView.setVisibility(View.GONE);
             incomingRLView.setVisibility(View.VISIBLE);
+
+            ringingStatusTV.setText(R.string.incoming_call);
+            incomingCallerNameTV.setText(CALLER_NAME);
+            incomingCallerPhoneNumberTV.setText(PHONE_NUMBER);
         }
-    }
-
-    public ImageView getCallerImage() {
-        return callerImage;
-    }
-
-    public TextView getCallerNameTV() {
-        return callerNameTV;
-    }
-
-    public TextView getCallDurationTV() {
-        return callDurationTV;
-    }
-
-    public TextView getCallStatusTV() {
-        return callStatusTV;
-    }
-
-    public BottomSheetDialog getKeypadDialog() {
-        return keypadDialog;
-    }
-
-    public String getKeypadDialogTVText() {
-        return keypadDialogTVText;
-    }
-
-    public TextView getIncomingCallerPhoneNumberTV() {
-        return incomingCallerPhoneNumberTV;
-    }
-
-    public TextView getIncomingCallerNameTV() {
-        return incomingCallerNameTV;
-    }
-
-    public TextView getRingingStatusTV() {
-        return ringingStatusTV;
-    }
-
-    public EditText getNoteET() {
-        return noteET;
-    }
-
-    public FloatingActionButton getRejectIncomingCallBtn() {
-        return rejectIncomingCallBtn;
-    }
-
-    public FloatingActionButton getAcceptIncomingCallBtn() {
-        return acceptIncomingCallBtn;
-    }
-
-    public RelativeLayout getInProgressCallRLView() {
-        return inProgressCallRLView;
-    }
-
-    public RelativeLayout getIncomingRLView() {
-        return incomingRLView;
-    }
-
-    public MaterialButton getKeypadBtn() {
-        return keypadBtn;
-    }
-
-    public MaterialButton getHoldBtn() {
-        return holdBtn;
-    }
-
-    public MaterialButton getAddCallBtn() {
-        return addCallBtn;
-    }
-
-    public MaterialButton getSpeakerBtn() {
-        return speakerBtn;
-    }
-
-    public MaterialButton getEndCallBtn() {
-        return endCallBtn;
-    }
-
-    public MaterialButton getMuteBtn() {
-        return muteBtn;
     }
 
     public void initialize(){
