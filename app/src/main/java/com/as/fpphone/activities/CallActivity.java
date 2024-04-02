@@ -6,13 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.telecom.Call;
-import android.telecom.InCallService;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -34,9 +30,7 @@ import com.as.fpphone.helpers.CallListHelper;
 import com.as.fpphone.helpers.CallManager;
 import com.as.fpphone.helpers.ContactHelper;
 import com.as.fpphone.helpers.RingtoneHelper;
-import com.as.fpphone.services.CallService;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.button.MaterialButton;
 
 public class CallActivity extends AppCompatActivity {
 
@@ -59,7 +53,7 @@ public class CallActivity extends AppCompatActivity {
 
     RelativeLayout inProgressCallRLView, incomingRLView;
 
-    MaterialButton keypadBtn, holdBtn, addCallBtn, speakerBtn,muteBtn;
+    ImageButton keypadBtn, holdBtn, addCallBtn, speakerBtn, muteBtn;
     public static boolean isMuted, isSpeakerOn, isCallOnHold;
     public  static String muteBtnName = "Mute", speakerBtnName = "Speaker On";
 
