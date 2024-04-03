@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.telecom.Call;
@@ -39,7 +40,7 @@ public class CallActivity extends AppCompatActivity {
 
     ImageView callerImage;
 
-    TextView callerNameTV, callDurationTV, callStatusTV;
+    TextView callerNameTV, callerPhoneNumberTV, callDurationTV, callStatusTV;
 
     Button btn0,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btnHash,btnStar;
     BottomSheetDialog keypadDialog;
@@ -54,8 +55,7 @@ public class CallActivity extends AppCompatActivity {
     RelativeLayout inProgressCallRLView, incomingRLView;
 
     ImageButton keypadBtn, holdBtn, addCallBtn, speakerBtn, muteBtn;
-    public static boolean isMuted, isSpeakerOn, isCallOnHold;
-    public  static String muteBtnName = "Mute", speakerBtnName = "Speaker On";
+    public static boolean isMuted, isSpeakerOn, isCallOnHold = false;
 
     public static String PHONE_NUMBER, CALLER_NAME;
 
@@ -67,8 +67,6 @@ public class CallActivity extends AppCompatActivity {
 
     }
 
-
-    RingtoneHelper ringtoneHelper = new RingtoneHelper();
 
 
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
@@ -84,6 +82,7 @@ public class CallActivity extends AppCompatActivity {
         });
         initialize();
         addLockScreenFlags();
+        onGoingCallButtonListeners();
 
 
         BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -113,8 +112,8 @@ public class CallActivity extends AppCompatActivity {
                             CALLER_NAME = ContactHelper.getContactName(PHONE_NUMBER,CallActivity.this);
                         }
                         callerNameTV.setText(CALLER_NAME);
+                        callerPhoneNumberTV.setText(PHONE_NUMBER);
                         callStatusTV.setText("Connected");
-                        callStatusTV.setTextColor(Color.GREEN);
                         break;
 
                     case "call_disconnecting":
@@ -177,6 +176,7 @@ public class CallActivity extends AppCompatActivity {
         inProgressCallRLView = findViewById(R.id.inProgressRL);
 
         callerNameTV = findViewById(R.id.caller_name_tv);
+        callerPhoneNumberTV = findViewById(R.id.caller_phone_number_tv);
         callStatusTV = findViewById(R.id.call_status_tv);
         callDurationTV = findViewById(R.id.call_time_tv);
         callerImage = findViewById(R.id.caller_iv);
@@ -276,7 +276,6 @@ public class CallActivity extends AppCompatActivity {
     public void addLockScreenFlags(){
         setShowWhenLocked(true);
         setTurnScreenOn(true);
-
         getWindow().addFlags(
                         WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
                         WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
@@ -284,5 +283,68 @@ public class CallActivity extends AppCompatActivity {
                         WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
                         WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
         );
+    }
+
+
+    public void onGoingCallButtonListeners(){
+        muteBtn.setOnClickListener(v -> {
+            RingtoneHelper.slightVibration();
+
+            if(isMuted){
+                CallManager.muteCall(false);
+                muteBtn.setBackgroundResource(R.drawable.round_button);
+                muteBtn.setColorFilter(getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+                isMuted=false;
+            }
+            else {
+                CallManager.muteCall(true);
+                muteBtn.setBackgroundResource(R.drawable.round_button_pressed);
+                muteBtn.setColorFilter(getColor(R.color.black), PorterDuff.Mode.SRC_IN);
+                isMuted=true;
+            }
+
+        });
+
+
+        speakerBtn.setOnClickListener(v -> {
+            RingtoneHelper.slightVibration();
+
+            if(isSpeakerOn){
+                CallManager.speakerCall(false);
+                //Changing button appearance when in on state or off state
+                speakerBtn.setBackgroundResource(R.drawable.round_button);
+                speakerBtn.setColorFilter(getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+                isSpeakerOn=false;
+            }
+            else {
+                CallManager.speakerCall(true);
+                speakerBtn.setBackgroundResource(R.drawable.round_button_pressed);
+                speakerBtn.setColorFilter(getColor(R.color.black), PorterDuff.Mode.SRC_IN);
+                isSpeakerOn=true;
+            }
+        });
+
+        holdBtn.setOnClickListener(v -> {
+            RingtoneHelper.slightVibration();
+            if(isCallOnHold){
+                CallManager.unHoldCall(CallListHelper.callList.get(CallManager.NUMBER_OF_CALLS-1));
+                holdBtn.setBackgroundResource(R.drawable.round_button);
+                holdBtn.setColorFilter(getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+                isCallOnHold = false;
+            }
+            else{
+                CallManager.holdCall(CallListHelper.callList.get(CallManager.NUMBER_OF_CALLS-1));
+                holdBtn.setBackgroundResource(R.drawable.round_button_pressed);
+                holdBtn.setColorFilter(getColor(R.color.black), PorterDuff.Mode.SRC_IN);
+                isCallOnHold = true;
+            }
+        });
+
+
+        endCallBtn.setOnClickListener(v -> {
+            RingtoneHelper.slightVibration();
+            CallManager.hangUpCall(CallListHelper.callList.get(CallManager.NUMBER_OF_CALLS-1));
+        });
+
     }
 }

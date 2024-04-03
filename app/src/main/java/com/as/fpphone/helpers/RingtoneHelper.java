@@ -64,4 +64,15 @@ public class RingtoneHelper {
         }
         return false; // not silent
     }
+
+    public static void slightVibration(){
+        if(vibrator!=null && vibrator.hasVibrator()){
+            if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.O){
+                vibrator.vibrate(VibrationEffect.createOneShot(50,VibrationEffect.DEFAULT_AMPLITUDE));
+            }
+            else {
+                vibrator.vibrate(50);
+            }
+        }
+    }
 }
