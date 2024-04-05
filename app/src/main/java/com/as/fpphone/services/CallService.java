@@ -18,10 +18,7 @@ import com.as.fpphone.helpers.RingtoneHelper;
 
 public class CallService extends InCallService {
 
-    RingtoneHelper ringtoneHelper = new RingtoneHelper();
-
     int call_state;
-    static Ringtone ringtone;
 
     @RequiresApi(api = Build.VERSION_CODES.S)
     @Override
@@ -55,6 +52,10 @@ public class CallService extends InCallService {
             }
             else {
                 //When on home-screen
+                Intent intent = new Intent(this,CallActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                Toast.makeText(this, "Incoming call from " + call.getDetails().getHandle().getSchemeSpecificPart(), Toast.LENGTH_SHORT).show();
             }
         }
 

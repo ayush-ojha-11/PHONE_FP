@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">FP Phone</string>
     <string name="incoming_call">is calling</string>
+    <string name="on_hold">On Hold</string>
+    <string name="connected">Connected</string>
+    <string name="rejected">Rejected</string>
 </resources>

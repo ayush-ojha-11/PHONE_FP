@@ -17,6 +17,7 @@ public class CallManager {
 
     public static int FP_CALL_STATE = 0;
 
+
     public  static Call.Callback callback = new Call.Callback() {
         @Override
         public void onStateChanged(Call call, int newState) {
@@ -41,9 +42,6 @@ public class CallManager {
                 CallListHelper.callList.remove(NUMBER_OF_CALLS - 1);
 
                 NUMBER_OF_CALLS = NUMBER_OF_CALLS - 1;
-
-            }
-            else if(newState == Call.STATE_HOLDING){
 
             }
         }

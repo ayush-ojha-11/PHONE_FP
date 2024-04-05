@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.telecom.Call;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,18 +19,23 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.as.fpphone.R;
+import com.as.fpphone.fragments.BottomSheetFragment;
 import com.as.fpphone.helpers.CallListHelper;
 import com.as.fpphone.helpers.CallManager;
 import com.as.fpphone.helpers.ContactHelper;
+import com.as.fpphone.helpers.ProximitySensorManager;
 import com.as.fpphone.helpers.RingtoneHelper;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -59,6 +65,8 @@ public class CallActivity extends AppCompatActivity {
 
     public static String PHONE_NUMBER, CALLER_NAME;
 
+    ProximitySensorManager  proximitySensorManager;
+
     public CallActivity(Context context) {
         this.context = context;
     }
@@ -69,12 +77,19 @@ public class CallActivity extends AppCompatActivity {
 
 
 
+
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_call);
+
+
+        // Automatically set the dark mode theme for the app, this is done
+        // to achieve white status bar icon color
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -90,16 +105,25 @@ public class CallActivity extends AppCompatActivity {
             public void onReceive(Context context, Intent intent) {
 
                 String action = intent.getAction();
+                //Proximity sensor manager
 
                 assert action != null;
                 switch (action) {
                     case "call_ended":
+                        //Unregister Listener
+                        if(proximitySensorManager!=null) {
+                            proximitySensorManager.unRegisterListener();
+                        }
                         finishAndRemoveTask();
                         break;
                     case "call_answered":
                         //Stop ringtone and vibration when call answered
                         RingtoneHelper.stopRinging();
                         RingtoneHelper.stopVibration();
+                        //Register proximity sensor listener
+                        proximitySensorManager = new ProximitySensorManager(context,getWindow());
+                        proximitySensorManager.registerListener();
+
                         inProgressCallRLView.setVisibility(View.VISIBLE);
                         incomingRLView.setVisibility(View.GONE);
 
@@ -113,11 +137,11 @@ public class CallActivity extends AppCompatActivity {
                         }
                         callerNameTV.setText(CALLER_NAME);
                         callerPhoneNumberTV.setText(PHONE_NUMBER);
-                        callStatusTV.setText("Connected");
+                        callStatusTV.setText(R.string.connected);
                         break;
 
                     case "call_disconnecting":
-                        ringingStatusTV.setText("Rejected");
+                        ringingStatusTV.setText(R.string.rejected);
                         ringingStatusTV.setTextColor(getColor(R.color.red));
                         break;
                 }
@@ -330,12 +354,16 @@ public class CallActivity extends AppCompatActivity {
                 CallManager.unHoldCall(CallListHelper.callList.get(CallManager.NUMBER_OF_CALLS-1));
                 holdBtn.setBackgroundResource(R.drawable.round_button);
                 holdBtn.setColorFilter(getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+                callStatusTV.setText(R.string.connected);
+                callStatusTV.setTextColor(getColor(R.color.white));
                 isCallOnHold = false;
             }
             else{
                 CallManager.holdCall(CallListHelper.callList.get(CallManager.NUMBER_OF_CALLS-1));
                 holdBtn.setBackgroundResource(R.drawable.round_button_pressed);
                 holdBtn.setColorFilter(getColor(R.color.black), PorterDuff.Mode.SRC_IN);
+                callStatusTV.setText(R.string.on_hold);
+                callStatusTV.setTextColor(getColor(R.color.red));
                 isCallOnHold = true;
             }
         });
@@ -346,5 +374,21 @@ public class CallActivity extends AppCompatActivity {
             CallManager.hangUpCall(CallListHelper.callList.get(CallManager.NUMBER_OF_CALLS-1));
         });
 
+
+        keypadBtn.setOnClickListener(v -> {
+            BottomSheetFragment bottomSheetFragment = new BottomSheetFragment();
+            bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+        });
+
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Unregister proximity sensor listener when activity is destroyed
+        if (proximitySensorManager != null) {
+            proximitySensorManager.unRegisterListener();
+        }
+    }
+
 }
