@@ -38,7 +38,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 public class CallActivity extends AppCompatActivity {
 
 
-    Context context;
+
 
     ImageView callerImage;
 
@@ -63,9 +63,6 @@ public class CallActivity extends AppCompatActivity {
 
     ProximitySensorManager  proximitySensorManager;
 
-    public CallActivity(Context context) {
-        this.context = context;
-    }
 
     public CallActivity() {
 
@@ -117,7 +114,7 @@ public class CallActivity extends AppCompatActivity {
                         RingtoneHelper.stopRinging();
                         RingtoneHelper.stopVibration();
                         //Register proximity sensor listener
-                        proximitySensorManager = new ProximitySensorManager(context);
+                        proximitySensorManager = new ProximitySensorManager(CallActivity.this);
                         proximitySensorManager.registerListener();
 
                         inProgressCallRLView.setVisibility(View.VISIBLE);
@@ -377,10 +374,9 @@ public class CallActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        // Unregister proximity sensor listener when activity is destroyed
+        // Unregister proximity sensor listener when activity enters onStop()
         if (proximitySensorManager != null) {
             proximitySensorManager.unRegisterListener();
         }
     }
-
 }
