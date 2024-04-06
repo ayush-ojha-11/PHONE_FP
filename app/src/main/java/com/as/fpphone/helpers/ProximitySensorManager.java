@@ -10,22 +10,17 @@ import android.os.Build;
 import android.os.PowerManager;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 public class ProximitySensorManager {
 
-    private final Context context;
     private final SensorManager sensorManager;
     private final Sensor proximitySensor;
-    private final Window window;
     private final PowerManager.WakeLock wakeLock;
 
     private boolean isRegistered = false;
 
     @SuppressLint("InvalidWakeLockTag")
-    public ProximitySensorManager(Context context, Window window) {
-        this.context = context;
-        this.window = window;
+    public ProximitySensorManager(Context context) {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
@@ -70,16 +65,16 @@ public class ProximitySensorManager {
     };
 
     private void turnOffScreen() {
+        //Turning the screen off when object is near
         acquireWakeLock();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
-        }
     }
 
     private void turnOnScreen() {
+        //Releasing the wakelock to turn on the screen
         releaseWakeLock();
     }
 
+    @SuppressLint("WakelockTimeout")
     private void acquireWakeLock() {
         if (wakeLock != null && !wakeLock.isHeld()) {
             wakeLock.acquire();

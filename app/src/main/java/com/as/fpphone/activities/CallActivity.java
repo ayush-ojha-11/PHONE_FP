@@ -5,13 +5,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.telecom.Call;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,7 +17,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.RequiresApi;
@@ -27,7 +24,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.as.fpphone.R;
@@ -121,7 +117,7 @@ public class CallActivity extends AppCompatActivity {
                         RingtoneHelper.stopRinging();
                         RingtoneHelper.stopVibration();
                         //Register proximity sensor listener
-                        proximitySensorManager = new ProximitySensorManager(context,getWindow());
+                        proximitySensorManager = new ProximitySensorManager(context);
                         proximitySensorManager.registerListener();
 
                         inProgressCallRLView.setVisibility(View.VISIBLE);
@@ -154,13 +150,9 @@ public class CallActivity extends AppCompatActivity {
         intentFilter.addAction("call_disconnecting");
         registerReceiver(broadcastReceiver,intentFilter,RECEIVER_EXPORTED);
 
-        rejectIncomingCallBtn.setOnClickListener(v -> {
-            CallManager.hangUpCall(CallListHelper.callList.get(CallManager.NUMBER_OF_CALLS-1));
-        });
+        rejectIncomingCallBtn.setOnClickListener(v -> CallManager.hangUpCall(CallListHelper.callList.get(CallManager.NUMBER_OF_CALLS-1)));
 
-        acceptIncomingCallBtn.setOnClickListener(v -> {
-            CallManager.answerCall(CallListHelper.callList.get(CallManager.NUMBER_OF_CALLS-1));
-        });
+        acceptIncomingCallBtn.setOnClickListener(v -> CallManager.answerCall(CallListHelper.callList.get(CallManager.NUMBER_OF_CALLS-1)));
 
     }
 
