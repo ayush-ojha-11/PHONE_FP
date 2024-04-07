@@ -8,10 +8,12 @@ import android.content.IntentFilter;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.telecom.Call;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -42,7 +44,9 @@ public class CallActivity extends AppCompatActivity {
 
     ImageView callerImage;
 
-    TextView callerNameTV, callerPhoneNumberTV, callDurationTV, callStatusTV;
+    TextView callerNameTV, callerPhoneNumberTV,callStatusTV;
+
+    Chronometer callDurationCM;
 
     Button btn0,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btnHash,btnStar;
     BottomSheetDialog keypadDialog;
@@ -107,6 +111,7 @@ public class CallActivity extends AppCompatActivity {
                         if(proximitySensorManager!=null) {
                             proximitySensorManager.unRegisterListener();
                         }
+                        callDurationCM.stop();
                         finishAndRemoveTask();
                         break;
                     case "call_answered":
@@ -131,6 +136,10 @@ public class CallActivity extends AppCompatActivity {
                         callerNameTV.setText(CALLER_NAME);
                         callerPhoneNumberTV.setText(PHONE_NUMBER);
                         callStatusTV.setText(R.string.connected);
+
+                        // manage chronometer
+                        callDurationCM.setBase(SystemClock.elapsedRealtime());
+                        callDurationCM.start();
                         break;
 
                     case "call_disconnecting":
@@ -191,7 +200,7 @@ public class CallActivity extends AppCompatActivity {
         callerNameTV = findViewById(R.id.caller_name_tv);
         callerPhoneNumberTV = findViewById(R.id.caller_phone_number_tv);
         callStatusTV = findViewById(R.id.call_status_tv);
-        callDurationTV = findViewById(R.id.call_time_tv);
+        callDurationCM = findViewById(R.id.call_time_cm);
         callerImage = findViewById(R.id.caller_iv);
 
 
