@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,11 +25,14 @@ import com.as.fpphone.modals.ContactModal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class ContactsFragment extends Fragment {
 
     List<ContactModal> contactsList;
+
 
 
     @Override
@@ -37,11 +42,6 @@ public class ContactsFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.contact_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        queryContacts();
-
-        ContactAdapter adapter =new ContactAdapter(contactsList);
-        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -64,8 +64,30 @@ public class ContactsFragment extends Fragment {
                 String contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
                 @SuppressLint("Range")
                 String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+
+
+                //Receive PhoneNumbers associated with each contact
+
+                List<String> phoneNumbers = new ArrayList<>();
+                Cursor phoneCursor = contentResolver.query(
+                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                        null,
+                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                        new String[]{contactId},
+                        null
+                );
+                if (phoneCursor != null) {
+                    while (phoneCursor.moveToNext()) {
+                        @SuppressLint("Range")
+                        String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        phoneNumbers.add(phoneNumber);
+                    }
+                    phoneCursor.close();
+                }
+
+                // Receive photoUri
                 Uri photoUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI,String.valueOf(contactId));
-                ContactModal contact = new ContactModal(displayName,photoUri);
+                ContactModal contact = new ContactModal(displayName,phoneNumbers,photoUri);
                 contactsList.add(contact);
             }
             cursor.close();

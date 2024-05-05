@@ -11,7 +11,7 @@
 
 
     <RelativeLayout
-        android:visibility="visible"
+        android:visibility="invisible"
         android:id="@+id/inProgressRL"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -26,7 +26,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="100dp"
                 android:scaleType="centerCrop"
                 android:id="@+id/caller_iv" />
 
@@ -70,35 +70,37 @@
 
 
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/in_progress_call_detail_LL"
-            android:layout_marginEnd="28dp"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="15dp"
-            android:textColorHint="@color/white"
-            android:id="@+id/note_textInputLayout">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/note_editText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:lines="3"
-                android:hint="Note here:" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:orientation="vertical"
-            android:layout_below="@id/note_textInputLayout"
+            android:gravity="center"
+            android:layout_below="@+id/in_progress_call_detail_LL"
+            android:layout_alignParentBottom="true"
             android:id="@+id/vertical_row_layout_holder">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="28dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="15dp"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white"
+                android:id="@+id/note_textInputLayout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/note_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/white"
+                    android:lines="2"
+                    android:hint="Note here:" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <LinearLayout
                 android:id="@+id/linear_layout_1"
@@ -108,15 +110,14 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="20dp"
-                android:layout_above="@id/linear_layout_2"
                 android:gravity="center"
                 android:orientation="horizontal">
 
 
                 <ImageButton
                     android:id="@+id/keypad_btn"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:src="@drawable/ic_dialpad"
                     android:background="@drawable/round_button"
                     android:contentDescription="Keypad_Button"
@@ -125,8 +126,8 @@
 
                 <ImageButton
                     android:id="@+id/hold_btn"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:contentDescription="Hold_Button"
                     android:background="@drawable/round_button"
                     android:layout_margin="8dp"
@@ -134,8 +135,8 @@
 
                 <ImageButton
                     android:id="@+id/add_call_btn"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_margin="8dp"
                     android:contentDescription="Add_Button"
                     android:background="@drawable/round_button"
@@ -156,8 +157,8 @@
 
                 <ImageButton
                     android:id="@+id/speaker_btn"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_margin="8dp"
                     app:tint="@color/white"
                     android:contentDescription="Speaker_Button"
@@ -166,8 +167,8 @@
 
                 <ImageButton
                     android:id="@+id/calculator_btn"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_margin="8dp"
                     android:background="@drawable/round_button"
                     android:src="@drawable/ic_calculate"
@@ -176,8 +177,8 @@
 
                 <ImageButton
                     android:id="@+id/mute_btn"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_margin="8dp"
                     app:tint="@color/white"
                     android:contentDescription="Mic__off_Button"
@@ -187,8 +188,8 @@
 
             <ImageButton
                 android:id="@+id/end_call_btn"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:background="@drawable/round_button_no_color"
                 android:layout_margin="8dp"
@@ -206,7 +207,7 @@
 
     <RelativeLayout
         android:id="@+id/incoming_call_RL"
-        android:visibility="invisible"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -214,14 +215,10 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="20dp"
             android:id="@+id/gradient_RL">
 
 
             <ImageView
-                android:layout_margin="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -279,8 +276,8 @@
 
 
                 <ImageButton
-                    android:layout_width="85dp"
-                    android:layout_height="85dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:src="@drawable/ic_vol_off"
                     app:tint="@color/white"
                     android:layout_alignParentStart="true"
@@ -288,8 +285,8 @@
                     android:background="@null"/>
 
                 <ImageButton
-                    android:layout_width="85dp"
-                    android:layout_height="85dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_alignParentEnd="true"
                     android:background="@null"
                     android:layout_marginEnd="40dp"
@@ -309,8 +306,8 @@
 
                 <ImageButton
                     android:id="@+id/rejectIncomingCall_btn"
-                    android:layout_width="85dp"
-                    android:layout_height="85dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:background="@drawable/round_button_no_color"
                     android:src="@drawable/ic_end_call"
                     android:layout_alignParentStart="true"
@@ -323,8 +320,8 @@
 
                 <ImageButton
                     android:id="@+id/acceptIncomingCall_btn"
-                    android:layout_width="85dp"
-                    android:layout_height="85dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:src="@drawable/ic_call"
                     android:contentDescription="Accept Call"
                     android:layout_alignParentEnd="true"
@@ -338,7 +335,5 @@
         </RelativeLayout>
 
     </RelativeLayout>
-
-
 
 </RelativeLayout>

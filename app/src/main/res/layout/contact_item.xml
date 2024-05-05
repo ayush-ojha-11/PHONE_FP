@@ -2,8 +2,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/colorPrimary"
-    android:padding="16dp">
+    android:background="@color/primary_bkg"
+    android:padding="14dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/contact_CIV"

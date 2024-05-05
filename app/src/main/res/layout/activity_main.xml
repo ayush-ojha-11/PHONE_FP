@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="?attr/colorPrimary"
+    android:background="@color/primary_bkg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
@@ -18,7 +18,7 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="@color/primary_bkg"
         android:id="@+id/bottom_navigation_view"
         app:menu="@menu/bottom_navigation_menu"
         android:layout_alignParentBottom="true"/>

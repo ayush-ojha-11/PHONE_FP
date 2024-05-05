@@ -41,14 +41,17 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        bottomNavigationView = findViewById(R.id.bottom_navigation_view);
+
         // Automatically set the dark mode theme for the app, this was done
         // to achieve white status bar icon color
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
-        // This will make sure that Recent Fragment is opened as the app opens
-        getSupportFragmentManager().beginTransaction().replace(R.id.container,recentFragment).commit();
 
-        bottomNavigationView = findViewById(R.id.bottom_navigation_view);
+        // This will make sure that Recent Fragment is opened as the app opens
+        getSupportFragmentManager().beginTransaction().replace(R.id.container,contactsFragment).commit();
+        bottomNavigationView.setSelectedItemId(R.id.menu_contacts);
 
         bottomNavigationView.setOnItemSelectedListener(menuItem -> {
 
