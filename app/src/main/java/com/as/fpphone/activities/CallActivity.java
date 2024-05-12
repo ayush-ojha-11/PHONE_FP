@@ -119,7 +119,7 @@ public class CallActivity extends AppCompatActivity {
                         RingtoneHelper.stopRinging();
                         RingtoneHelper.stopVibration();
                         //Register proximity sensor listener
-                        proximitySensorManager = new ProximitySensorManager(CallActivity.this);
+                        proximitySensorManager = new ProximitySensorManager(getApplicationContext());
                         proximitySensorManager.registerListener();
 
                         inProgressCallRLView.setVisibility(View.VISIBLE);
@@ -168,11 +168,7 @@ public class CallActivity extends AppCompatActivity {
 
         int callState = CallManager.FP_CALL_STATE;
 
-        if(callState == Call.STATE_ACTIVE || callState == Call.STATE_HOLDING){
-            Intent broadcastIntent = new Intent("call_answered");
-            sendBroadcast(broadcastIntent);
-        }
-        else if (callState == Call.STATE_RINGING) {
+        if (callState == Call.STATE_RINGING) {
 
             PHONE_NUMBER = CallListHelper.callList.get(CallManager.NUMBER_OF_CALLS - 1).getDetails().getHandle().getSchemeSpecificPart();
             CALLER_NAME = ContactHelper.getContactName(PHONE_NUMBER,this);
@@ -336,12 +332,20 @@ public class CallActivity extends AppCompatActivity {
                 //Changing button appearance when in on state or off state
                 speakerBtn.setBackgroundResource(R.drawable.round_button);
                 speakerBtn.setColorFilter(getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+
+                //Register listener back when speaker is off
+                proximitySensorManager.registerListener();
+
                 isSpeakerOn=false;
             }
             else {
                 CallManager.speakerCall(true);
                 speakerBtn.setBackgroundResource(R.drawable.round_button_pressed);
                 speakerBtn.setColorFilter(getColor(R.color.black), PorterDuff.Mode.SRC_IN);
+                //Unregister Listener when speaker on
+                if(proximitySensorManager!=null) {
+                    proximitySensorManager.unRegisterListener();
+                }
                 isSpeakerOn=true;
             }
         });
@@ -380,12 +384,4 @@ public class CallActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        // Unregister proximity sensor listener when activity enters onStop()
-        if (proximitySensorManager != null) {
-            proximitySensorManager.unRegisterListener();
-        }
-    }
 }
