@@ -83,9 +83,6 @@ public class CallActivity extends AppCompatActivity {
         setContentView(R.layout.activity_call);
 
 
-        // Automatically set the dark mode theme for the app, this is done
-        // to achieve white status bar icon color
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -311,13 +308,13 @@ public class CallActivity extends AppCompatActivity {
             if(isMuted){
                 CallManager.muteCall(false);
                 muteBtn.setBackgroundResource(R.drawable.round_button);
-                muteBtn.setColorFilter(getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+                muteBtn.setColorFilter(getColor(R.color.button_element_inactive), PorterDuff.Mode.SRC_IN);
                 isMuted=false;
             }
             else {
                 CallManager.muteCall(true);
                 muteBtn.setBackgroundResource(R.drawable.round_button_pressed);
-                muteBtn.setColorFilter(getColor(R.color.black), PorterDuff.Mode.SRC_IN);
+                muteBtn.setColorFilter(getColor(R.color.button_element_active), PorterDuff.Mode.SRC_IN);
                 isMuted=true;
             }
 
@@ -331,7 +328,7 @@ public class CallActivity extends AppCompatActivity {
                 CallManager.speakerCall(false);
                 //Changing button appearance when in on state or off state
                 speakerBtn.setBackgroundResource(R.drawable.round_button);
-                speakerBtn.setColorFilter(getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+                speakerBtn.setColorFilter(getColor(R.color.button_element_inactive), PorterDuff.Mode.SRC_IN);
 
                 //Register listener back when speaker is off
                 proximitySensorManager.registerListener();
@@ -341,7 +338,7 @@ public class CallActivity extends AppCompatActivity {
             else {
                 CallManager.speakerCall(true);
                 speakerBtn.setBackgroundResource(R.drawable.round_button_pressed);
-                speakerBtn.setColorFilter(getColor(R.color.black), PorterDuff.Mode.SRC_IN);
+                speakerBtn.setColorFilter(getColor(R.color.button_element_active), PorterDuff.Mode.SRC_IN);
                 //Unregister Listener when speaker on
                 if(proximitySensorManager!=null) {
                     proximitySensorManager.unRegisterListener();
@@ -355,7 +352,7 @@ public class CallActivity extends AppCompatActivity {
             if(isCallOnHold){
                 CallManager.unHoldCall(CallListHelper.callList.get(CallManager.NUMBER_OF_CALLS-1));
                 holdBtn.setBackgroundResource(R.drawable.round_button);
-                holdBtn.setColorFilter(getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+                holdBtn.setColorFilter(getColor(R.color.button_element_inactive), PorterDuff.Mode.SRC_IN);
                 callStatusTV.setText(R.string.connected);
                 callStatusTV.setTextColor(getColor(R.color.white));
                 isCallOnHold = false;
@@ -363,7 +360,7 @@ public class CallActivity extends AppCompatActivity {
             else{
                 CallManager.holdCall(CallListHelper.callList.get(CallManager.NUMBER_OF_CALLS-1));
                 holdBtn.setBackgroundResource(R.drawable.round_button_pressed);
-                holdBtn.setColorFilter(getColor(R.color.black), PorterDuff.Mode.SRC_IN);
+                holdBtn.setColorFilter(getColor(R.color.button_element_active), PorterDuff.Mode.SRC_IN);
                 callStatusTV.setText(R.string.on_hold);
                 callStatusTV.setTextColor(getColor(R.color.red));
                 isCallOnHold = true;

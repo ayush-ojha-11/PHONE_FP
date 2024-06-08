@@ -2,10 +2,16 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="primary_bkg">#192C3A</color>
+    <color name="primary_bkg">#FFFFFF</color>
+    <color name="text_color">#000000</color>
     <color name="red">#ea3f3f</color>
     <color name="feature_on_color">#B80730</color>
     <color name="darkGrey">#272626</color>
     <color name="light_grey">#888888</color>
-    <color name="green">#77d672</color>
+    <color name="green">#2AC723</color>
+    <color name="button_active">#888888</color>
+    <color name="button_inactive">#FFFFFF</color>
+    <color name="button_element_active">#FFFFFF</color>
+    <color name="button_element_inactive">#000000</color>
+    <color name="card_view_bkg">#E5DEF1</color>
 </resources>

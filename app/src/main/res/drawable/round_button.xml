@@ -4,5 +4,5 @@
     android:shape="oval">
 
     <solid
-        android:color="#66686363"/>
+        android:color="@color/button_inactive"/>
 </shape>

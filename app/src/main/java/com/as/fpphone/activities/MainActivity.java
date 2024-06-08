@@ -44,9 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
 
-        // Automatically set the dark mode theme for the app, this was done
-        // to achieve white status bar icon color
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
 
 
         // This will make sure that Recent Fragment is opened as the app opens
@@ -75,7 +73,5 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
-
-
     }
 }

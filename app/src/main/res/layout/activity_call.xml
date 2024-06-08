@@ -11,7 +11,7 @@
 
 
     <RelativeLayout
-        android:visibility="invisible"
+        android:visibility="visible"
         android:id="@+id/inProgressRL"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -26,7 +26,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="200dp"
                 android:scaleType="centerCrop"
                 android:id="@+id/caller_iv" />
 
@@ -35,8 +35,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="28sp"
+                android:fontFamily="@font/montserrat_medium"
                 android:layout_margin="2dp"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color"
                 android:text="Ayush Ojha" />
 
             <TextView
@@ -44,8 +45,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="+919569489343"
+                android:fontFamily="@font/montserrat_regular"
                 android:textSize="16sp"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color"
                 android:layout_margin="2dp"/>
 
             <Chronometer
@@ -53,6 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#4CAF50"
+                android:fontFamily="@font/montserrat_regular"
                 android:textSize="18sp"/>
 
 
@@ -60,154 +63,147 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/call_status_tv"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color"
                 android:text="Connecting..."
+                android:fontFamily="@font/montserrat_regular"
                 android:layout_margin="2dp"
                 android:textSize="18sp" />
 
-
         </LinearLayout>
 
-
-
-
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_below="@+id/in_progress_call_detail_LL"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/vertical_row_layout_holder">
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="28dp"
+            android:layout_marginStart="28dp"
+            android:layout_below="@id/in_progress_call_detail_LL"
+            android:textColorHint="@color/text_color"
+            app:hintTextColor="@color/white"
+            android:id="@+id/note_textInputLayout">
 
-            <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/note_editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="28dp"
-                android:layout_marginStart="28dp"
-                android:layout_marginTop="15dp"
-                android:textColorHint="@color/white"
-                app:hintTextColor="@color/white"
-                android:id="@+id/note_textInputLayout">
+                android:backgroundTint="@color/white"
+                android:textColor="@color/text_color"
+                android:lines="1"
+                android:hint="Note here:" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/note_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
-                    android:textColor="@color/white"
-                    android:lines="2"
-                    android:hint="Note here:" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:background="@drawable/round_linear_layout_bkg"
+              android:gravity="center"
+              android:layout_marginTop="50dp"
+              android:layout_below="@id/note_textInputLayout"
+              android:layout_alignParentBottom="true"
+              android:id="@+id/vertical_row_layout_holder">
 
-
-            <LinearLayout
-                android:id="@+id/linear_layout_1"
-                android:layout_marginBottom="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+              <LinearLayout
+                  android:id="@+id/linear_layout_1"
+                  android:layout_marginBottom="8dp"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                  android:orientation="horizontal">
 
 
-                <ImageButton
-                    android:id="@+id/keypad_btn"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/ic_dialpad"
-                    android:background="@drawable/round_button"
-                    android:contentDescription="Keypad_Button"
-                    android:layout_margin="8dp"
-                    android:drawableTop="@drawable/ic_dialpad" />
+                  <ImageButton
+                      android:id="@+id/keypad_btn"
+                      android:layout_width="85dp"
+                      android:layout_height="85dp"
+                      android:src="@drawable/ic_dialpad"
+                      android:background="@drawable/round_button"
+                      android:contentDescription="Keypad_Button"
+                      android:layout_margin="15dp"
+                      app:tint="@color/button_element_inactive"
+                      android:drawableTop="@drawable/ic_dialpad" />
 
-                <ImageButton
-                    android:id="@+id/hold_btn"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:contentDescription="Hold_Button"
-                    android:background="@drawable/round_button"
-                    android:layout_margin="8dp"
-                    android:src="@drawable/ic_hold" />
+                  <ImageButton
+                      android:id="@+id/hold_btn"
+                      android:layout_width="85dp"
+                      android:layout_height="85dp"
+                      android:contentDescription="Hold_Button"
+                      android:background="@drawable/round_button"
+                      android:layout_margin="15dp"
+                      app:tint="@color/button_element_inactive"
+                      android:src="@drawable/ic_hold" />
 
-                <ImageButton
-                    android:id="@+id/add_call_btn"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="8dp"
-                    android:contentDescription="Add_Button"
-                    android:background="@drawable/round_button"
-                    android:src="@drawable/ic_call_add" />
+                  <ImageButton
+                      android:id="@+id/add_call_btn"
+                      android:layout_width="85dp"
+                      android:layout_height="85dp"
+                      android:layout_margin="15dp"
+                      android:contentDescription="Add_Button"
+                      app:tint="@color/button_element_inactive"
+                      android:background="@drawable/round_button"
+                      android:src="@drawable/ic_call_add" />
 
-            </LinearLayout>
+              </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/linear_layout_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="20dp"
-                android:layout_alignParentBottom="true"
-                android:gravity="center"
-                android:orientation="horizontal">
+              <LinearLayout
+                  android:id="@+id/linear_layout_2"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="8dp"
+                  android:gravity="center"
+                  android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/speaker_btn"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="8dp"
-                    app:tint="@color/white"
-                    android:contentDescription="Speaker_Button"
-                    android:background="@drawable/round_button"
-                    android:src="@drawable/ic_volume_up" />
+                  <ImageButton
+                      android:id="@+id/speaker_btn"
+                      android:layout_width="85dp"
+                      android:layout_height="85dp"
+                      android:layout_margin="15dp"
+                      app:tint="@color/button_element_inactive"
+                      android:contentDescription="Speaker_Button"
+                      android:background="@drawable/round_button"
+                      android:src="@drawable/ic_volume_up" />
 
-                <ImageButton
-                    android:id="@+id/calculator_btn"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="8dp"
-                    android:background="@drawable/round_button"
-                    android:src="@drawable/ic_calculate"
-                    android:contentDescription="Calculator Button"
-                    app:tint="@color/white" />
+                  <ImageButton
+                      android:id="@+id/calculator_btn"
+                      android:layout_width="85dp"
+                      android:layout_height="85dp"
+                      android:layout_margin="15dp"
+                      android:background="@drawable/round_button"
+                      android:src="@drawable/ic_calculate"
+                      android:contentDescription="Calculator Button"
+                      app:tint="@color/button_element_inactive" />
 
-                <ImageButton
-                    android:id="@+id/mute_btn"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="8dp"
-                    app:tint="@color/white"
-                    android:contentDescription="Mic__off_Button"
-                    android:src="@drawable/ic_mic_off"
-                    android:background="@drawable/round_button" />
-            </LinearLayout>
+                  <ImageButton
+                      android:id="@+id/mute_btn"
+                      android:layout_width="85dp"
+                      android:layout_height="85dp"
+                      android:layout_margin="15dp"
+                      app:tint="@color/button_element_inactive"
+                      android:contentDescription="Mic__off_Button"
+                      android:src="@drawable/ic_mic_off"
+                      android:background="@drawable/round_button" />
+              </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/end_call_btn"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center"
-                android:background="@drawable/round_button_no_color"
-                android:layout_margin="8dp"
-                android:backgroundTint="@color/red"
-                android:src="@drawable/ic_end_call"
-                android:contentDescription="End_Call_Button"
-                app:tint="@color/white" />
+              <ImageButton
+                  android:id="@+id/end_call_btn"
+                  android:layout_width="85dp"
+                  android:layout_height="85dp"
+                  android:layout_gravity="center"
+                  android:background="@drawable/round_button_no_color"
+                  android:layout_margin="15dp"
+                  android:backgroundTint="@color/red"
+                  android:src="@drawable/ic_end_call"
+                  android:contentDescription="End_Call_Button"
+                  app:tint="@color/white" />
 
-        </LinearLayout>
-
-
+          </LinearLayout>
 
     </RelativeLayout>
-
-
+    
     <RelativeLayout
         android:id="@+id/incoming_call_RL"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -220,117 +216,97 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="250dp"
                 android:scaleType="centerCrop"
-                android:layout_above="@id/incoming_call_details_LL"
                 android:id="@+id/incomingCallerPhoto_iv"
-                android:contentDescription="Caller_Image" />
+                android:contentDescription="Caller_Image"
+                tools:ignore="HardcodedText" />
 
 
-            <LinearLayout
-                android:id="@+id/incoming_call_details_LL"
-                android:layout_above="@id/silent_and_sms_buttonRL"
-                android:layout_marginBottom="15dp"
-                android:gravity="center_horizontal"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/incomingCallerName_tv"
-                    android:textColor="@color/white"
-                    android:layout_margin="5dp"
-                    android:text="Ayush Ojha"
-                    android:textSize="36sp"
-                    android:layout_marginTop="5dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/incomingCallerNumber_tv"
-                    android:text="9569489341"
-                    android:layout_margin="5dp"
-                    android:textSize="16sp"
-                    android:textColor="@color/white" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/ringingStatus_tv"
-                    android:layout_margin="5dp"
-                    android:text="is Calling"
-                    android:textColor="@color/white" />
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:id="@+id/silent_and_sms_buttonRL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@id/button_RL"
-                android:layout_marginBottom="15dp">
-
-
-                <ImageButton
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/ic_vol_off"
-                    app:tint="@color/white"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="40dp"
-                    android:background="@null"/>
-
-                <ImageButton
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_alignParentEnd="true"
-                    android:background="@null"
-                    android:layout_marginEnd="40dp"
-                    app:tint="@color/white"
-                    android:src="@drawable/ic_sms"
-                    />
-            </RelativeLayout>
-
-
-
-            <RelativeLayout
-                android:id="@+id/button_RL"
-                android:layout_marginBottom="25dp"
-                android:layout_alignParentBottom="true"
-                android:layout_width="match_parent"
+                android:layout_above="@id/empty_bottom_view"
+                app:cardCornerRadius="20dp"
+                android:elevation="2dp"
+                android:layout_margin="25dp"
+                android:backgroundTint="@color/card_view_bkg"
                 android:layout_height="wrap_content">
 
-                <ImageButton
-                    android:id="@+id/rejectIncomingCall_btn"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:background="@drawable/round_button_no_color"
-                    android:src="@drawable/ic_end_call"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="40dp"
-                    android:backgroundTint="@color/red"
-                    android:text="Reject"
-                    android:contentDescription="Reject Call"
-                    tools:ignore="HardcodedText"
-                    app:tint="@color/white" />
+                <LinearLayout
+                    android:id="@+id/incoming_call_details_LL"
+                    android:layout_marginBottom="15dp"
+                    android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                <ImageButton
-                    android:id="@+id/acceptIncomingCall_btn"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/ic_call"
-                    android:contentDescription="Accept Call"
-                    android:layout_alignParentEnd="true"
-                    android:backgroundTint="@color/green"
-                    android:background="@drawable/round_button_no_color"
-                    android:layout_marginEnd="40dp"
-                    app:tint="@color/white"
-                    tools:ignore="HardcodedText" />
-            </RelativeLayout>
+                    <ImageButton
+                        android:id="@+id/acceptIncomingCall_btn"
+                        android:layout_margin="10dp"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:src="@drawable/ic_call"
+                        android:contentDescription="Accept Call"
+                        android:backgroundTint="@color/green"
+                        android:background="@drawable/round_button_no_color"
+                        app:tint="@color/white"
+                        tools:ignore="HardcodedText" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/incomingCallerName_tv"
+                        android:textColor="@color/text_color"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:text="Ayush Ojha"
+                        android:textSize="36sp"
+                        android:layout_marginTop="5dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/incomingCallerNumber_tv"
+                        android:text="9569489341"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:layout_margin="5dp"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_color" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ringingStatus_tv"
+                        android:layout_margin="5dp"
+                        android:text="is Calling"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:textColor="@color/text_color" />
+
+                    <ImageButton
+                        android:id="@+id/rejectIncomingCall_btn"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/round_button_no_color"
+                        android:src="@drawable/ic_end_call"
+                        android:backgroundTint="@color/red"
+                        android:text="Reject"
+                        android:contentDescription="Reject Call"
+                        tools:ignore="HardcodedText"
+                        app:tint="@color/white" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <View
+                android:id="@+id/empty_bottom_view"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"/>
+
 
         </RelativeLayout>
 

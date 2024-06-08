@@ -22,7 +22,8 @@
             android:layout_toEndOf="@id/contact_CIV"
             android:layout_centerVertical="true"
             android:text="Ayush Ojha"
-            android:textColor="@color/white"
+            android:fontFamily="@font/montserrat_regular"
+            android:textColor="@color/text_color"
             android:maxLines="1"
             android:ellipsize="end"/>
 </RelativeLayout>
